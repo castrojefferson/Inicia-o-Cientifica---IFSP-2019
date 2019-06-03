@@ -1,0 +1,93 @@
+<Home>: # Screen Home
+	BoxLayout:
+		BoxLayout:
+			orientation: 'vertical'
+			BoxLayout: # Head with configurations
+				size_hint_y: None
+				height: 60
+
+				Label:
+					width: 60
+					text: 'SETTINGS'
+
+			BoxLayout:
+				orientation: 'vertical'
+
+				Spinner:
+					id: voice
+					orientation: 'vertical'
+					size_hint_y: None
+					text: 'Select voice engine'
+
+					values: ('gtts', 'festival', 'pyttsx3')
+				BoxLayout:
+
+		BoxLayout:
+			orientation: 'vertical'
+			GridLayout: # Microphone
+				cols:3
+
+				Label:
+					text: "DON'T"
+				AnchorLayout:
+					anchor_x: 'center'
+					anchor_y: 'center'
+					Scatter:
+						id: test
+						size_hint: (None, None)
+						size: microphone.size
+						do_rotation: False
+						do_scale: False
+						do_translation_y: False
+						Image:
+							id: microphone
+	        	    		source: "icons/microphone.png"
+						TouchWidget:
+							id: touch_widget
+				Label:
+					text: 'SEND'
+
+			BoxLayout: # text_input
+				orientation: 'vertical'
+				TextInput:
+					id: user_input
+				BoxLayout:
+					size_hint_y: None
+					height: 40
+					Button:
+						size_hint_x: None
+						width: 50
+						id: send_input
+						text: 'SEND'
+						on_release: root.add_message_box_user(user_input.text); root.play_audio()
+					
+					Button:
+						id: play_audio
+						text: 'Listening\nyour audio'
+						on_press: print("oi");root.play_user_audio();print("tchau")
+
+					Button:
+						id: anybutton
+						text: 'Get text from\n Microphone'
+						on_release: user_input.text = str(root.sphinx.recognize())
+		BoxLayout:
+			orientation: 'vertical'
+			
+			BoxLayout:
+				size_hint_y: None
+				height: 60
+				Label:
+					text: 'CHATBOT'
+
+			BoxLayout:
+				orientation: 'vertical'
+				height: self.minimum_height
+
+				TextInput:
+					size_hint_y: None
+					height: 200
+					id: message_box_user
+					readonly: True
+
+				Button:
+					background_color: (0, 0, 0, 0)

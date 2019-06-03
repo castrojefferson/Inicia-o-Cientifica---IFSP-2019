@@ -1,0 +1,4 @@
+#python 3.6.7
+kivy
+chatterbot==1.0.4
+pyttsx3
