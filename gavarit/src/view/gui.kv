@@ -1,8 +1,8 @@
-<Home>: # Screen Home
+<Home>:
 	BoxLayout:
 		BoxLayout:
 			orientation: 'vertical'
-			BoxLayout: # Head with configurations
+			BoxLayout:
 				size_hint_y: None
 				height: 60
 
@@ -19,16 +19,16 @@
 					size_hint_y: None
 					text: 'Select voice engine'
 
-					values: ('gtts', 'festival', 'pyttsx3')
+					values: ('festival(Linux)', 'pyttsx3(Linux and Windows)')
 				BoxLayout:
 
 		BoxLayout:
 			orientation: 'vertical'
-			GridLayout: # Microphone
+			GridLayout:
 				cols:3
 
 				Label:
-					text: "DON'T"
+					text: "Hold"
 				AnchorLayout:
 					anchor_x: 'center'
 					anchor_y: 'center'
@@ -45,9 +45,9 @@
 						TouchWidget:
 							id: touch_widget
 				Label:
-					text: 'SEND'
+					text: 'To Record'
 
-			BoxLayout: # text_input
+			BoxLayout:
 				orientation: 'vertical'
 				TextInput:
 					id: user_input

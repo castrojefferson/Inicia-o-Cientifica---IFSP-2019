@@ -14,9 +14,8 @@ class Bot:
 		if(open('./configs/train.txt').read() == '0'	):
 			open('./configs/train.txt', 'w').write('1')
 			self.trainer_corpus.train("chatterbot.corpus.english")
-			print('1')
 		else:
-			print('2')
+			pass
 
 	def get_response(self, text):
 		return self.chatbot.get_response(text)

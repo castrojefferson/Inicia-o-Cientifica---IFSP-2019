@@ -1,4 +1,7 @@
 #python 3.6.7
 kivy
-chatterbot==1.0.4
 pyttsx3
+threading
+wave
+chatterbot==1.0.4
+pyaudio==0.2.11

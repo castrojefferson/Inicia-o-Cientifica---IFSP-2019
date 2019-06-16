@@ -3,27 +3,14 @@ import wave
 import time
 import sys
 import os
-import configparser
 from threading import Thread
 
-import gtts
 try:
 	import pyttsx3
 except:
 	pass
 
 AUDIO_FILE='./temp/file.wav'
-AUDIO_FILE_MP3='./temp/file.mp3'
-class GoogleTranslate:
-	def __init__(self):#, *args):
-		pass
-
-	def execute(self, text):
-		print(str(text))
-		try:
-			gtts.gTTS(str(text), lang='en-us').save(AUDIO_FILE_MP3)
-		except:
-			print(None)
 
 class Pyttsx3:
 	def __init__(self):

@@ -11,7 +11,7 @@ from kivy.event import EventDispatcher
 import threading
 
 from src.controll.microphone import Microphone
-from src.controll.tts import GoogleTranslate, Pyttsx3, Festival, Audio
+from src.controll.tts import Pyttsx3, Festival, Audio
 from src.controll.stt import Sphinx
 from src.controll.chatbot import Bot
 
@@ -25,30 +25,21 @@ class Home(Screen):
 
 		self.sphinx = Sphinx()
 		self.text_input_class=text_input_class
-		self.ids.voice.bind(text=self.show_selected_value)
+		self.ids.voice.bind(text=self.selected_value)
 		self.engine='system'
 		self.text=""
 
 	def play_audio(self):
-		print(self.text)
-		if self.engine == 'gtts':
-			try:
-				print(11)
-				GoogleTranslate().execute(self.text)
-				print(22)
-				print(33)
-			except:
-				print("\n\n\nArquivo criado, porem nao executa o audio\n\n\n")
-
-			Audio().play(file='./temp/file.mp3')
-
-		elif self.engine == 'pyttsx3':
-			Pyttsx3().play(self.text)
-		elif self.engine == 'festival':
-			Festival().play(self.text)
+		if self.engine == 'pyttsx3(Linux and Windows)':
+			self.start_trhead = threading.Thread(target=Pyttsx3().play, args=(self.text,))
+			self.start_trhead.start()
+		elif self.engine == 'festival(Linux)':
+			self.start_trhead = threading.Thread(target=Festival().play, args=(self.text,))
+			self.start_trhead.start()
 
 	def play_user_audio(self):
-		Audio().play()
+			self.start_trhead = threading.Thread(target=Audio().play())
+			self.start_trhead.start()
 
 	def add_message_box_bot(self, *args):
 		self.text=args[0]
@@ -65,14 +56,8 @@ class Home(Screen):
 		get_reponse = threading.Thread(target=self.sphinx.recognize)
 		return get_reponse
 
-	def show_selected_value(self, spinner, text, *args):
-	    print('The spinner', spinner, 'have text', text, '\n', text)
+	def selected_value(self, spinner, text, *args):
 	    self.engine = text
-
-
-""" TO-DO
-		Obter resposta do bot
-"""
 
 class TouchWidget(Widget):
 	def __init__(self, **kwargs):
@@ -87,9 +72,6 @@ class TouchWidget(Widget):
 	
 		if self.collide_point(*touch.pos):
 			touch.grab(self)
-		"""
-			Implementar - Quando o botão for largado, retornar a posição inicial
-		"""
 
 	def on_touch_up(self, touch):
 		if touch.grab_current is self:
@@ -101,20 +83,15 @@ class TouchWidget(Widget):
 					self.microphone.save()
 				except:
 					pass
-				print("\nCANCEL...\n")
-
 			elif touch.spos[0] > 0.60:
 				self.status=False
 				self.microphone.set_status(False)
 				self.microphone.save()
 
-				print("\nSEND...\n")
 			else:
 				self.status=False
 				self.microphone.set_status(False)
 				self.microphone.save()
-				print("\nSEND...\n")
-
 		self.microphone.set_status(True)
 
 class TextInput_:
@@ -127,16 +104,11 @@ class TextInput_:
 	def get_user_text(self):
 		return Sphinx().recognize()
 
-# Objeto global
 text_input_class = TextInput_()
 
 class Gui(App):
 	def build(self):
 		return Home()
-
-class ScreenSettings:#Implementar Screen de Configuração 
-	def __init__(self):
-		pass
 
 if __name__ == '__main__':
 	Gui().run()
